@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ibrat Mock Trials — What It Is & How It Works</title>
+  <meta name="description" content="An interactive overview of Ibrat Mock Trials: what mock trials are, how they work, roles, skills, and why it matters." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; line-height: 1.6; color: #0a1a2b; background: #f5f7fb; }
+    :root{
+      --ink:#0a1f33; --ink-2:#0a2a43; --bg:#f5f7fb; --card:#ffffff;
+      --accent:#f4c542; --accent-2:#ffe08a; --muted:#6b7a90;
+      --shadow: 0 10px 30px rgba(10, 31, 51, 0.12); --radius:16px; --radius-sm:12px; --radius-lg:22px; --maxw: 1200px;
+    }
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+    @media (min-width: 768px) {
+      .container { padding: 0 80px; }
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAVBAR ===== */
+    .navbar{ background:rgba(255,255,255,0.8); backdrop-filter:blur(12px); position:fixed; top:0; left:0; width:100%; z-index:50; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1); border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center; padding:16px 20px; }
+    .logo{ height:40px; width:auto; }
+    .nav-links{ list-style:none; display:flex; gap:24px; margin:0; padding:0; }
+    .nav-links a{ color:#003366; font-weight:500; font-size:18px; }
+    .nav-links a:hover{ text-decoration:underline; text-underline-offset:3px; }
+    
+    @media (min-width: 768px) {
+      .navbar{ padding:20px 24px; }
+      .logo{ height:56px; }
+    }
+
+    /* ===== HERO ===== */
+    .hero { min-height: 60vh; display: grid; align-items: center; position: relative; color: white; isolation:isolate; padding-top: 60px;
+      background-image: url('images/trials.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    
+    @media (min-width: 768px) {
+      .hero { min-height: 72vh; padding-top: 80px; }
+    }
+    .hero::after{ content:""; position:absolute; inset:0;
+      background-image:
+        url('data:image/svg+xml;utf8,\
+          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">\
+            <g opacity="0.06" fill="none" stroke="%23ffffff" stroke-width="2">\
+              <path d="M150 40 l20 35 h-40 z"/>\
+              <path d="M150 75 v120" />\
+              <path d="M110 115 h80" />\
+              <circle cx="100" cy="150" r="30" />\
+              <circle cx="200" cy="150" r="30" />\
+              <path d="M70 150 h60" />\
+              <path d="M170 150 h60" />\
+            </g>\
+          </svg>');
+      background-size: 320px 320px; background-position: center; mix-blend-mode: overlay; pointer-events:none; }
+    .hero-inner{ display:grid; gap: 20px; grid-template-columns: 1.2fr 1fr; align-items:center; padding: 80px 0; }
+    .badge{ display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px; background: rgba(244,197,66,0.15); color: #ffe8a3; font-weight:600; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+    .title{ font-size: clamp(34px, 4.5vw, 56px); line-height:1.1; margin: 6px 0 10px; font-weight: 800; }
+    .subtitle{ color: #e5eefc; max-width: 62ch; font-size: clamp(16px,1.35vw,19px); }
+    .cta-row{ display:flex; flex-wrap: wrap; gap:12px; margin-top: 18px; }
+    .btn, .btn-outline{ appearance:none; border:0; padding: 12px 16px; border-radius: 12px; font-weight:700; cursor:pointer; transition: transform .05s ease, background .2s ease; }
+    .btn{ background: var(--accent); color: #1d1400; } .btn:hover{ background: var(--accent-2); } .btn:active{ transform: translateY(1px); }
+    .btn-outline{ background: transparent; color: white; border: 1px solid rgba(255,255,255,.35); } .btn-outline:hover{ background: rgba(255,255,255,.08); }
+    .hero-card{ background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-lg); padding: 18px; backdrop-filter: blur(8px); box-shadow: 0 10px 40px rgba(8, 14, 25, 0.35); }
+    .hero-card h3{ margin: 0 0 12px; color: #fff; }
+    .hero-grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+    .metric .num{ font-size: 28px; font-weight: 800; }
+    .metric .cap{ color:#e1e9ff; font-size: 13px; }
+
+    section { padding: 70px 0; }
+    .section-head{ display:flex; justify-content: space-between; align-items: end; gap:20px; margin-bottom: 24px; }
+    .section-title{ font-size: clamp(24px,3.2vw,34px); color: var(--ink-2); margin: 0; }
+    .section-kicker{ color: var(--muted); margin:4px 0 0; }
+
+    .intro{ background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; display:grid; gap:20px; grid-template-columns: 1.1fr .9fr; }
+    .pill{ display:inline-block; padding:6px 10px; background: #0a2a43; color: #fff; border-radius: 999px; font-size: 12px; }
+    .def-card{ background: linear-gradient(180deg, #0a2a43 0%, #0a1f33 100%); color: white; border-radius: 14px; padding: 18px; border: 1px solid #0e3a5c; }
+    .def-card b{ color: var(--accent); }
+    .muted{ color: var(--muted); font-size: 14px; }
+
+    .stepper{ margin-top: 12px; display:grid; grid-template-columns: 300px 1fr; gap: 16px; }
+    .steps{ background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px; display:flex; flex-direction:column; gap: 8px; }
+    .step-btn{ text-align:left; padding: 12px 12px; border-radius: 12px; background: #f3f6fd; border: 1px solid #e5ebf7; color: var(--ink-2); font-weight: 700; cursor:pointer; }
+    .step-btn[data-active="true"]{ background: #fff9e6; border-color: var(--accent); }
+    .step-content{ background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; min-height: 280px; }
+    .step-content h3{ text-align: center; }
+    .progress{ height: 8px; background: #e9eef8; border-radius: 999px; overflow:hidden; margin-top:12px; }
+    .progress > div{ height:100%; width: 0%; background: linear-gradient(90deg, var(--accent), #ffd76b); }
+
+    .grid{ display:grid; gap: 16px; grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .role{ perspective: 1000px; }
+    .card{ position: relative; height: 230px; border-radius: var(--radius-sm); transform-style: preserve-3d; transition: transform .6s ease; box-shadow: var(--shadow); background: var(--card); border: 1px solid #e6ecf7; }
+    .card-inner{ position:absolute; inset:0; padding:18px; display:grid; }
+    .front{ backface-visibility: hidden; }
+    .back{ transform: rotateY(180deg); backface-visibility: hidden; }
+    .card.flipped{ transform: rotateY(180deg); }
+    .tag{ font-size:12px; color:#335; background:#eef3ff; border:1px solid #dae5ff; padding:4px 8px; border-radius:999px; width:max-content; }
+    .role h4{ margin: 8px 0 6px; color: var(--ink-2); }
+
+    .packet{ background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; display:grid; grid-template-columns: 1fr 1.25fr; gap: 14px; }
+    details{ background:#f7f9fe; border:1px solid #e7ecf9; border-radius: 12px; padding: 10px 12px; }
+    summary{ cursor: pointer; font-weight:700; color: var(--ink-2); }
+    .exhibit{ border: 1px dashed #c7d3ea; border-radius: 12px; height: 240px; display:grid; place-items: center; background: repeating-linear-gradient(45deg, #fafcff, #fafcff 8px, #f2f7ff 8px, #f2f7ff 16px); color:#7b8ba7; }
+    .exhibit button{ margin-top: 8px; }
+
+    .poll{ background: linear-gradient(160deg, #ffffff 0%, #f9fbff 100%); border: 1px solid #e7eef9; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; display:grid; gap: 12px; }
+    .choices{ display:flex; gap:10px; flex-wrap:wrap; }
+    .choice[selected]{ outline: 3px solid var(--accent); background: #fff9e6; }
+    .result{ display:none; background:#f2fff7; border:1px solid #d5f2e0; color:#0c5132; padding: 12px; border-radius: 12px; }
+
+    .counters{ display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap:14px; margin-top:10px; }
+    .counter{ background: var(--card); border-radius: 12px; border:1px solid #e6ecf7; padding:16px; text-align:center; box-shadow: var(--shadow); }
+    .counter .n{ font-size: 34px; font-weight:800; color: var(--ink-2); }
+    .counter .label{ color: var(--muted); font-size: 14px; }
+
+    /* ===== bottom three blocks spacing fix ===== */
+    .story-card{ background:var(--card); border:1px solid #e6ecf7; border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-bottom: 36px; }
+    .cta{ margin-top: 28px; margin-bottom: 32px; }         /* separates from story and footer */
+    .site-footer{ margin-top: 36px; }                     /* separates CTA and footer */
+
+    /* ===== FOOTER (grid + responsive) ===== */
+    .site-footer{ background:#0a2a43; color:#fff; padding:32px 0 18px; }
+    .footer-grid{
+      display:grid;
+      gap:24px;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      align-items:start;
+    }
+    @media (max-width: 780px){
+      .footer-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 560px){
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+    .site-footer h4{ margin:0 0 8px; color:#fff; }
+    .site-footer p{ margin:0 0 10px; color:#cdd6e8; }
+
+    .social{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    .social a{ display:inline-flex; }
+    .social img{ width:24px; height:24px; object-fit:contain; display:block; }
+    .social img:hover{ opacity:.85; }
+
+    .site-footer form{ display:flex; gap:10px; flex-wrap:wrap; }
+    .site-footer input{ padding:10px; border-radius:6px; border:none; flex:1 1 240px; min-width:0; }
+    .site-footer button{ padding:10px 14px; background:#f4c542; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+    .copyright{ text-align:center; margin-top:30px; color:#cdd6e8; font-size:14px; }
+    
+    /* Active Link CSS */
+    .active-link {
+      border-bottom: 2px solid #003366;
+      padding-bottom: 2px;
+    }
+    .active-link:hover {
+      text-decoration: none !important;
+    }
+    
+    /* Ensure desktop navigation is visible */
+    @media (min-width: 768px) {
+      .desktop-nav {
+        display: flex !important;
+      }
+      .mobile-menu-btn {
+        display: none !important;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .desktop-nav {
+        display: none !important;
+      }
+      .mobile-menu-btn {
+        display: block !important;
+      }
+    }
+
+    @media (max-width: 1000px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      .intro{ grid-template-columns: 1fr; }
+      .stepper{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .packet{ grid-template-columns: 1fr; }
+      .counters{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 560px){
+      .grid{ grid-template-columns: 1fr; }
+      .counters{ grid-template-columns: 1fr; }
+      .container{ padding: 0 16px; }
+      .hero-inner{ padding: 40px 0; }
+      .title{ font-size: 28px; }
+      .subtitle{ font-size: 14px; }
+      .cta-row{ flex-direction: column; gap: 8px; }
+      .btn, .btn-outline{ width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="flex items-center space-x-2">
+      <img src="images/Blue-logo.png" alt="Ibrat Mock Trials Logo" class="logo"/>
+    </div>
+    
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-button" class="mobile-menu-btn p-2 rounded-lg hover:bg-gray-100 transition-colors">
+      <svg class="w-6 h-6 text-[#003366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    
+    <!-- Desktop navigation -->
+    <ul class="nav-links desktop-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ibrat-mock-trials.html">What is Mock Trials?</a></li>
+      <li><a href="team.html">Our Team</a></li>
+    </ul>
+    
+    <!-- Mobile navigation menu -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200">
+      <ul class="flex flex-col py-4">
+        <li><a href="index.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">Home</a></li>
+        <li><a href="ibrat-mock-trials.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">What is Mock Trials?</a></li>
+        <li><a href="team.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">Our Team</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="badge">Project Overview • Ibrat Mock Trials</span>
+        <h1 class="title">Courtroom skills — made for students.</h1>
+        <p class="subtitle">
+          Mock Trials are <b>educational simulations of courtroom proceedings</b> where you act as attorneys, witnesses, jurors, and judges.
+          Learn law, justice, and debate through practice — with philosophy warm-ups to sharpen ethics and reasoning.
+        </p>
+        <div class="cta-row">
+          <button class="btn" id="openDemo">Watch 30s demo</button>
+          <a class="btn-outline" href="#how">See how it works</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3>What you’ll practice</h3>
+        <div class="hero-grid">
+          <div class="metric"><div class="num" data-countto="1000">0</div><div class="cap">Quick-thinking</div></div>
+          <div class="metric"><div class="num" data-countto="1000">0</div><div class="cap">Public speaking</div></div>
+          <div class="metric"><div class="num" data-countto="1000">0</div><div class="cap">Teamwork</div></div>
+          <div class="metric"><div class="num" data-countto="1000">0</div><div class="cap">Leadership</div></div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== INTRO ===== -->
+    <section class="container" id="intro" style="margin-top: 4rem;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span class="pill">What is a Mock Trial?</span></p>
+          <h2 class="section-title">A hands-on way to learn law, justice, and debate.</h2>
+        </div>
+      </div>
+      <div class="intro">
+        <div class="def-card">
+          <h3>In 5 words?</h3>
+          <p><b>Educational courtroom simulations for students.</b> You’ll argue real or fictional cases, question witnesses, and persuade jurors — while building life skills like speaking, teamwork, problem-solving, and leadership.</p>
+          <p style="margin-top:8px;">We also add short warm-up dilemmas in <b>philosophy</b> — because ethics, logic, and rhetoric are the backbone of good legal reasoning.</p>
+        </div>
+        <div>
+          <h3>Not an exam — a simulation</h3>
+          <p class="muted">Many people confuse mock trials with SAT/IELTS “mocks”. They’re different. Here, you’re <i>inside</i> a courtroom story, not filling in answer sheets.</p>
+          <ul>
+            <li><b>Act it out:</b> take roles like attorney, witness, juror, judge.</li>
+            <li><b>Practice the process:</b> openings → examinations → closings → verdict.</li>
+            <li><b>Get feedback:</b> judges/moderators help you refine arguments & delivery.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="container" id="how" style="margin-top: 4rem;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span class="pill">How it works</span></p>
+          <h2 class="section-title">From case packet to verdict — student-friendly.</h2>
+          <p class="section-kicker">Click a step to explore. Progress fills as you go.</p>
+        </div>
+      </div>
+
+      <div class="stepper">
+        <nav class="steps" aria-label="Trial stages">
+          <button class="step-btn" data-step="1" data-active="true">1) Case distribution</button>
+          <button class="step-btn" data-step="2">2) Team preparation</button>
+          <button class="step-btn" data-step="3">3) Courtroom roles</button>
+          <button class="step-btn" data-step="4">4) The trial</button>
+          <button class="step-btn" data-step="5">5) Feedback & learning</button>
+        </nav>
+        <div class="step-content" id="stepContent" aria-live="polite"></div>
+      </div>
+      <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+    </section>
+
+    <!-- ===== ROLES ===== -->
+    <section class="container" id="roles" style="margin-top: 4rem;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span class="pill">Pick your role</span></p>
+          <h2 class="section-title">Who will you be in court?</h2>
+          <p class="section-kicker">Tap a card to flip for responsibilities and tips.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- four role cards ... (unchanged for brevity) -->
+        <div class="role">
+          <div class="card" tabindex="0" role="button" aria-pressed="false">
+            <div class="card-inner front">
+              <span class="tag">Attorney</span>
+              <h4>Prosecutor / Defense</h4>
+              <p class="muted">Craft a theory, examine witnesses, and deliver persuasive openings/closings.</p>
+              <div style="margin-top:auto" class="muted">Tap to flip →</div>
+            </div>
+            <div class="card-inner back">
+              <h4>Key moves</h4>
+              <p class="muted">Analyze the case, work with your witnesses to strategize a plan and execute powerful statements in the courtroom.</p>
+              <div style="margin-top:auto" class="muted">← Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="role">
+          <div class="card" tabindex="0" role="button" aria-pressed="false">
+            <div class="card-inner front">
+              <span class="tag">Witness</span>
+              <h4>Bring the facts to life</h4>
+              <p class="muted">Act out your character, stay within your statement, and handle cross with calm.</p>
+              <div style="margin-top:auto" class="muted">Tap to flip →</div>
+            </div>
+            <div class="card-inner back">
+              <h4>Key moves</h4>
+              <ul class="muted">
+                <li>Memorize your statement’s <i>facts</i>, not a script.</li>
+                <li>Answer only what’s asked.</li>
+                <li>Stay in character under pressure.</li>
+              </ul>
+              <div style="margin-top:auto" class="muted">← Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="role">
+          <div class="card" tabindex="0" role="button" aria-pressed="false">
+            <div class="card-inner front">
+              <span class="tag">Jury</span>
+              <h4>Listen. Weigh. Decide.</h4>
+              <p class="muted">Score teams on clarity, persuasion, and mastery — not the case outcome.</p>
+              <div style="margin-top:auto" class="muted">Tap to flip →</div>
+            </div>
+            <div class="card-inner back">
+              <h4>Key moves</h4>
+              <ul class="muted">
+                <li>Separate facts from assumptions.</li>
+                <li>Track key themes & inconsistencies.</li>
+                <li>Decide by the standard given.</li>
+              </ul>
+              <div style="margin-top:auto" class="muted">← Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="role">
+          <div class="card" tabindex="0" role="button" aria-pressed="false">
+            <div class="card-inner front">
+              <span class="tag">Judge</span>
+              <h4>Keep order & coach</h4>
+              <p class="muted">Ensure rules are followed and offer constructive feedback as a coordinator.</p>
+              <div style="margin-top:auto" class="muted">Tap to flip →</div>
+            </div>
+            <div class="card-inner back">
+              <h4>Key moves</h4>
+              <ul class="muted">
+                <li>Guide, don’t dominate.</li>
+                <li>Be fair & consistent.</li>
+                <li>Model courtroom professionalism.</li>
+              </ul>
+              <div style="margin-top:auto" class="muted">← Tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PACKET EXPLORER ===== -->
+    <section class="container" id="packet" style="margin-top: 4rem;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span class="pill">What’s inside a case</span></p>
+          <h2 class="section-title">Peek into the case packet</h2>
+          <p class="section-kicker">Open sections on the left — preview appears on the right.</p>
+        </div>
+      </div>
+
+      <div class="packet">
+        <div>
+          <details open>
+            <summary>Background & facts</summary>
+            <p class="muted">A short narrative setting, parties involved, and the dispute at stake.</p>
+          </details>
+          <details>
+            <summary>Applicable rules</summary>
+            <p class="muted">Key laws or competition rules relevant to the case (e.g., hearsay, relevance).</p>
+          </details>
+          <details>
+            <summary>Witness statements</summary>
+            <p class="muted">Each witness has a signed statement — your truth boundary during testimony.</p>
+          </details>
+          <details>
+            <summary>Exhibits & evidence</summary>
+            <p class="muted">Photos, reports, maps, chats, receipts — props you can admit and argue from.</p>
+          </details>
+        </div>
+        <div class="exhibit">
+          <div>
+            <div style="font-weight:800; font-size:18px;">Exhibit A — “Chat Transcript”</div>
+            <p>Hover to zoom • Click to annotate</p>
+            <button class="btn" id="openExhibit">Open Exhibit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   
+
+
+    <!-- ===== OUR STORY ===== -->
+    <section class="container" id="story" style="margin-top: 4rem;">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span class="pill">Our story</span></p>
+          <h2 class="section-title">Uzbekistan’s First Mock Trials Movement</h2>
+          <p class="section-kicker">Founded by Oybek, Asadbek, and Khabibulloh to close the gap in legal opportunities for youth.</p>
+        </div>
+      </div>
+
+      <!-- spacing-friendly card -->
+      <div class="story-card">
+        <p>
+          We created Ibrat Mock Trials to make courtroom learning <b>accessible, practical, and exciting</b>. Our goal is to create new opportunities for young law enthusiasts in Uzbekistan.
+          Each event is balanced so either side can win — the focus is on <i>persuasion, clarity, and courtroom skills</i>.
+          Judges coordinate fairly (often school Ambassadors or Regional Managers) and provide actionable feedback to help you grow.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== CTA (now with space above & below) ===== -->
+    <section class="container" style="margin-top: 4rem;">
+      <div class="cta" style="background: linear-gradient(180deg, #0a2a43 0%, #0a1f33 100%); color:white; padding: 34px; border-radius: var(--radius-lg); display:grid; grid-template-columns: 1fr auto; gap:20px; align-items:center; border: 1px solid #0f3858;">
+        <div>
+          <h3 style="margin: 0 0 8px;">Ready to step into court?</h3>
+          <p style="margin: 0;">Choose a role, practice your case, and experience the energy of a live trial.</p>
+        </div>
+        <div>
+          <a class="btn" href="#how">Explore stages</a>
+          <a class="btn-outline" href="#roles">Pick a role</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!-- Footer -->
+<footer class="bg-[#003366] text-white px-4 sm:px-6 md:px-20 py-8 sm:py-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 items-start text-left invisible-until-scroll">
+    
+    <!-- Community Section -->
+     <!-- Left Column: Community + Copyright -->
+    <div class="flex flex-col justify-between h-full">
+      <div>
+        <h3 class="text-base sm:text-lg font-semibold mb-2">Community</h3>
+        <p class="text-xs sm:text-sm text-gray-200">Ibrat Mock Trials is building a community of students passionate about law, leadership, and justice. Together, we learn, practice, and inspire each other</p>
+      </div>
+      <p class="text-xs text-gray-400 mt-4 sm:mt-6">© 2025 Ibrat Mock Trials. All rights reserved.</p>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div>
+      <h3 class="text-base sm:text-lg font-semibold mb-2">Connect</h3>
+      <p class="text-xs sm:text-sm">@ibratmocktrialsbot</p>
+      <p class="text-xs sm:text-sm">mocktrials.site</p>
+      <p class="text-xs sm:text-sm">+998 (95) 092 0208</p>
+      <p class="text-xs sm:text-sm mb-3 sm:mb-4">+998 (91) 297 22 75</p>
+      <div class="flex space-x-3 sm:space-x-4">
+        <a href="https://www.instagram.com/ibratmocktrial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+          <img src="images/instagram.png" alt="Instagram" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+        <a href="https://t.me/IbratMockTrials" target="_blank" aria-label="Telegram">
+          <img src="images/telegram.png" alt="Telegram" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+        <a href="https://www.linkedin.com/company/ibrat-mock-trials/" target="_blank" aria-label="LinkedIn">
+          <img src="images/linkedin.png" alt="LinkedIn" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Collaborate Section -->
+    <div>
+      <h3 class="text-base sm:text-lg font-semibold mb-2">Collaborate</h3>
+      <p class="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">Want to be part of shaping the next generation of leaders? Enter your email to stay updated on programs and opportunities.</p>
+      <form class="space-y-2 sm:space-y-3">
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input 
+            type="email" 
+            placeholder="Enter your email address here" 
+            class="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-800 bg-white rounded-lg border-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            required 
+          />
+          <button 
+            type="submit" 
+            class="px-4 sm:px-6 py-2 sm:py-3 bg-white text-[#003366] text-xs sm:text-sm font-medium rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+ 
+</footer>
+
+  <!-- ===== Modals & Scripts (unchanged) ===== -->
+  <dialog id="demoModal" style="border:none; padding:0; border-radius: 16px; width:min(900px, 90vw); box-shadow: 0 20px 80px rgba(0,0,0,.4);">
+    <div style="background:#000; aspect-ratio:16/9; width:100%; display:grid; place-items:center; color:white;">
+      <p style="padding:12px; text-align:center;">Demo placeholder — embed your 30s promo video here (YouTube/Vimeo or MP4).</p>
+    </div>
+    <div style="display:flex; justify-content:flex-end; padding:10px; background:#0a1f33;">
+      <button class="btn" onclick="demoModal.close()">Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="exhibitModal" style="border:none; padding:0; border-radius: 16px; width:min(900px, 90vw); box-shadow: 0 20px 80px rgba(0,0,0,.4);">
+    <div style="background:#0b223a; color:white; padding: 10px 16px; display:flex; align-items:center; gap:10px;">
+      <strong>Exhibit A — Chat Transcript</strong>
+      <span style="margin-left:auto; font-size: 12px; opacity:.8;">Annotation demo</span>
+    </div>
+    <div style="background:#0f2745; padding: 12px;">
+      <div id="canvasWrap" style="background:white; border-radius:12px; overflow:hidden; border:1px solid #e6ecf7;">
+        <canvas id="exhibitCanvas" width="820" height="420" aria-label="Exhibit canvas"></canvas>
+      </div>
+      <div style="display:flex; gap:8px; margin-top: 8px;">
+        <button class="btn" id="pen">Pen</button>
+        <button class="btn-outline" id="clear">Clear</button>
+        <div style="margin-left:auto; color:#fff; opacity:.8;">(Click & drag to annotate)</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; padding:10px; background:#0a1f33;">
+      <button class="btn" onclick="exhibitModal.close()">Done</button>
+    </div>
+  </dialog>
+
+  <script>
+    // metrics animation
+    const metricNums = document.querySelectorAll('.metric .num');
+    let metricStarted = false;
+    const metricObserver = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting) && !metricStarted){
+        metricStarted = true;
+        metricNums.forEach(n => {
+          const target = +n.dataset.countto;
+          let cur = 0;
+          const step = () => {
+            cur += Math.max(1, Math.round(target/40));
+            if (cur >= target){ n.textContent = "✓"; return; }
+            n.textContent = cur + "%";
+            requestAnimationFrame(step);
+          };
+          step();
+        });
+      }
+    }, { threshold: .3 });
+    metricNums.forEach(n => metricObserver.observe(n));
+
+    // stepper
+    const contentByStep = {
+      1: `<h3>Case distribution</h3><p>Teams receive a balanced case packet:</p><ul><li>Background & facts</li><li>Applicable laws/rules</li><li>Witness statements</li><li>Exhibits & evidence</li></ul><p class="muted">Either Prosecution/Plaintiff or Defense can win — it depends on your strategy.</p>`,
+      2: `<h3>Team preparation</h3><p>Students split into <b>Prosecution</b> and <b>Defense</b>. Roles are assigned and arguments prepared:</p><ul><li><b>Opening:</b> frame the story & themes</li><li><b>Direct:</b> question your witnesses</li><li><b>Cross:</b> challenge their witnesses</li><li><b>Closing:</b> summarize & persuade</li></ul>`,
+      3: `<h3>Courtroom roles</h3><p>Attorneys present the case. Witnesses perform characters from statements. Jury evaluates persuasiveness. Judges coordinate and give feedback.</p>`,
+      4: `<h3>The trial</h3><ol><li>Opening statements</li><li>Prosecution's case — direct & cross</li><li>Defense's case — direct & cross</li><li>Closing statements</li><li>Jury's verdict</li></ol><p class="muted">Scoring focuses on clarity, persuasion, and courtroom skills — not just the verdict.</p>`,
+      5: `<h3>Feedback & learning</h3><p>After the trial, judges/moderators share feedback. You reflect, strengthen arguments, and adapt strategies — transforming the trial into a true learning experience.</p>`
+    };
+    const stepButtons = document.querySelectorAll('.step-btn');
+    const stepContent = document.getElementById('stepContent');
+    const progressBar = document.getElementById('progressBar');
+    let visitedSteps = new Set([1]);
+    function renderStep(step){
+      stepButtons.forEach(btn => btn.dataset.active = (btn.dataset.step == step));
+      stepContent.innerHTML = contentByStep[step];
+      visitedSteps.add(+step);
+      progressBar.style.width = (visitedSteps.size / stepButtons.length * 100) + "%";
+    }
+    stepButtons.forEach(btn => btn.addEventListener('click', e => renderStep(e.currentTarget.dataset.step)));
+    renderStep(1);
+
+    // flip cards
+    document.querySelectorAll('.card').forEach(card => {
+      const toggle = () => card.classList.toggle('flipped');
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    });
+
+    // poll
+    const resultBox = document.getElementById('resultBox');
+    document.querySelectorAll('.choice').forEach(ch => {
+      ch.addEventListener('click', () => {
+        document.querySelectorAll('.choice').forEach(c => c.removeAttribute('selected'));
+        ch.setAttribute('selected', '');
+        resultBox.style.display = 'block';
+      });
+    });
+
+    // counters
+    const counters = document.querySelectorAll('.counter .n');
+    let countersStarted = false;
+    const counterObserver = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting) && !countersStarted){
+        countersStarted = true;
+        counters.forEach(el => {
+          const target = +el.dataset.target;
+          let cur = 0;
+          const step = () => {
+            cur += 2 + Math.random()*4;
+            if (cur >= target){ el.textContent = target + "%"; return; }
+            el.textContent = Math.floor(cur) + "%";
+            requestAnimationFrame(step);
+          };
+          step();
+        });
+      }
+    }, { threshold: .3 });
+    counters.forEach(n => counterObserver.observe(n));
+
+    // modals + canvas
+    const demoModal = document.getElementById('demoModal');
+    const exhibitModal = document.getElementById('exhibitModal');
+    document.getElementById('openDemo').addEventListener('click', () => demoModal.showModal());
+    document.getElementById('openExhibit').addEventListener('click', () => { exhibitModal.showModal(); drawExhibit(); });
+
+    let drawing = false, ctx;
+    function drawExhibit(){
+      const canvas = document.getElementById('exhibitCanvas');
+      ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0a1f33'; ctx.fillRect(0,0,canvas.width,60);
+      ctx.fillStyle = 'white'; ctx.font = 'bold 18px system-ui'; ctx.fillText('Exhibit A — Chat Transcript (preview)', 16, 36);
+      ctx.fillStyle = '#f7f9fe'; ctx.fillRect(0,60,canvas.width,canvas.height-60);
+      const bubbles = [
+        {x:20,y:90,w:360,h:48, text:'User: “Meet me by the library at 7?”'},
+        {x:440,y:150,w:360,h:48, text:'Witness: “I was at the cafe until 7:30.”'},
+        {x:20,y:210,w:480,h:48, text:'User: “Receipt shows 6:45…”'},
+        {x:400,y:270,w:300,h:48, text:'Witness: “That was my friend’s.”'},
+      ];
+      bubbles.forEach((b,i) => {
+        ctx.fillStyle = i%2===0 ? '#e8f0ff' : '#eaf9ef';
+        roundRect(ctx, b.x,b.y,b.w,b.h,12, true);
+        ctx.fillStyle = '#0a1f33'; ctx.font = '14px system-ui';
+        ctx.fillText(b.text, b.x+12, b.y+30);
+      });
+      ctx.strokeStyle = '#ff6b00'; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.beginPath();
+    }
+    function roundRect(ctx, x, y, w, h, r, fill){
+      ctx.beginPath();
+      ctx.moveTo(x+r, y);
+      ctx.arcTo(x+w, y, x+w, y+h, r);
+      ctx.arcTo(x+w, y+h, x, y+h, r);
+      ctx.arcTo(x, y+h, x, y, r);
+      ctx.arcTo(x, y, x+w, y, r);
+      ctx.closePath();
+      if (fill) ctx.fill(); else ctx.stroke();
+    }
+    document.getElementById('pen').addEventListener('click', () => {});
+    document.getElementById('clear').addEventListener('click', () => drawExhibit());
+    document.getElementById('exhibitCanvas').addEventListener('mousedown', e => { drawing = true; drawPoint(e); });
+    document.getElementById('exhibitCanvas').addEventListener('mousemove', e => { if(drawing) drawPoint(e); });
+    document.getElementById('exhibitCanvas').addEventListener('mouseup', () => drawing = false);
+    document.getElementById('exhibitCanvas').addEventListener('mouseleave', () => drawing = false);
+    function drawPoint(e){
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      ctx.lineTo(x,y); ctx.stroke();
+    }
+
+    // Active link highlighting
+    function setActiveLink() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll(".nav-links a");
+      navLinks.forEach(link => {
+        link.classList.remove("active-link");
+        const linkHref = link.getAttribute("href");
+        if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+          link.classList.add("active-link");
+        }
+      });
+    }
+
+    // Run on page load
+    window.addEventListener("DOMContentLoaded", setActiveLink);
+    
+    // Mobile menu functionality
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close mobile menu when clicking on a link
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+  </script>
+
+</body>
+</html>

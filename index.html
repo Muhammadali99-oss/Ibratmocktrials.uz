@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ibrat Mock Trials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: url('images/background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 1.5s ease-out forwards;
+      }
+
+      .invisible-until-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .visible {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      /* Gallery Styles */
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+        box-shadow: 0 4px 20px rgba(12, 35, 64, 0.1);
+      }
+      
+      .gallery-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 30px rgba(12, 35, 64, 0.15);
+      }
+      
+      .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: end;
+        padding: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+        background: linear-gradient(transparent, rgba(12, 35, 64, 0.8));
+      }
+      
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+      
+      .gallery-caption {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #fbbf24; /* Gold color */
+        font-family: 'Inter', 'Helvetica Neue', sans-serif;
+      }
+      
+      .filter-button {
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        transition: all 0.2s;
+        font-weight: 500;
+        font-size: 0.875rem;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .filter-button.active {
+        background-color: #003366;
+        color: white;
+      }
+      
+      .filter-button.inactive {
+        background-color: #f5f5f5;
+        color: #003366;
+      }
+      
+      .filter-button.inactive:hover {
+        background-color: #e5e5e5;
+      }
+      
+      .serif-heading {
+        font-family: 'Georgia', 'Times New Roman', serif;
+      }
+      
+      /* Ensure desktop navigation is visible */
+      @media (min-width: 768px) {
+        .desktop-nav {
+          display: flex !important;
+        }
+        .mobile-menu-btn {
+          display: none !important;
+        }
+      }
+      
+      @media (max-width: 767px) {
+        .desktop-nav {
+          display: none !important;
+        }
+        .mobile-menu-btn {
+          display: block !important;
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".invisible-until-scroll").forEach((el) => {
+          observer.observe(el);
+        });
+      });
+    </script>
+  </head>
+  <body class="text-gray-800 font-sans">
+    <!-- Overlay to darken background for readability -->
+    <div class="bg-[#003366]/60 min-h-screen">
+      <!-- Navbar -->
+     <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 sm:px-6 py-4 sm:py-5 bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200">
+  <div class="flex items-center space-x-2">
+    <img src="images/Blue-logo.png" alt="Ibrat Mock Trials Logo" class="h-10 sm:h-14 w-auto" />
+  </div>
+  
+  <!-- Mobile menu button -->
+  <button id="mobile-menu-button" class="mobile-menu-btn p-2 rounded-lg hover:bg-gray-100 transition-colors">
+    <svg class="w-6 h-6 text-[#003366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+  
+  <!-- Desktop navigation -->
+  <ul class="desktop-nav space-x-6 text-lg text-[#003366] font-medium">
+    <li><a href="index.html" class="hover:underline">Home</a></li>
+    <li><a href="ibrat-mock-trials.html" class="hover:underline">What is Mock Trials?</a></li>
+    <li><a href="team.html" class="hover:underline">Our Team</a></li>
+  </ul>
+  
+  <!-- Mobile navigation menu -->
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200">
+    <ul class="flex flex-col py-4">
+      <li><a href="index.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">Home</a></li>
+      <li><a href="ibrat-mock-trials.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">What is Mock Trials?</a></li>
+      <li><a href="team.html" class="block px-6 py-3 text-lg text-[#003366] font-medium hover:bg-gray-50">Our Team</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Active Link CSS -->
+<style>
+  .active-link {
+    border-bottom: 2px solid #003366;
+    padding-bottom: 2px;
+  }
+  .active-link:hover {
+    text-decoration: none !important;
+  }
+</style>
+
+<!-- JavaScript to highlight active page -->
+<script>
+  function setActiveLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll("nav ul li a");
+    navLinks.forEach(link => {
+      link.classList.remove("active-link");
+      const linkHref = link.getAttribute("href");
+      if (linkHref === currentPage || (currentPage === '' && linkHref === 'index.html')) {
+        link.classList.add("active-link");
+      }
+    });
+  }
+
+  // Run on page load
+  window.addEventListener("DOMContentLoaded", setActiveLink);
+  
+  // Mobile menu functionality
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  mobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.toggle('hidden');
+  });
+  
+  // Close mobile menu when clicking on a link
+  const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.add('hidden');
+    });
+  });
+</script>
+
+<!-- Gallery JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Gallery lightbox functionality
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const closeLightbox = document.getElementById('close-lightbox');
+
+    // Lightbox functionality
+    galleryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const img = this.querySelector('img');
+        const description = img.getAttribute('alt');
+        
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxCaption.textContent = '';
+        lightboxDescription.textContent = description;
+        lightbox.classList.remove('hidden');
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // Close lightbox
+    closeLightbox.addEventListener('click', function() {
+      lightbox.classList.add('hidden');
+      lightbox.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close lightbox when clicking outside image
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        lightbox.classList.add('hidden');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+        lightbox.classList.add('hidden');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  });
+</script>
+
+
+      <!-- Hero Section -->
+      <section class="flex flex-col justify-center items-center text-center min-h-[70vh] sm:h-[80vh] px-4 text-white pt-20 sm:pt-0">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 invisible-until-scroll leading-tight">
+          Uzbekistan's First Mock Trial Movement
+        </h1>
+        <p class="mb-6 max-w-2xl text-base sm:text-lg invisible-until-scroll px-2" style="transition-delay: 0.2s;">
+          Experience the courtroom. Speak the law. Lead with justice.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+         <a href="https://t.me/IbratMockTrials" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto max-w-xs sm:max-w-none">
+  <button class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition invisible-until-scroll text-base font-medium" style="transition-delay: 0.5s;">
+    Join Telegram
+  </button>
+</a>
+         <a href="https://www.instagram.com/ibratmocktrial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto max-w-xs sm:max-w-none">
+  <button class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition invisible-until-scroll text-base font-medium" style="transition-delay: 0.5s;">
+    Join Instagram
+  </button>
+</a>
+        </div>
+      </section>
+
+      <!-- About Section Preview -->
+      <section id="about" class="bg-white/90 text-[#003366] py-12 sm:py-16 px-4 sm:px-6 md:px-20">
+        <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4 invisible-until-scroll" style="transition-delay: 0.3s;">About Us</h2>
+            <p class="text-sm sm:text-base leading-relaxed invisible-until-scroll" style="transition-delay: 0.2s;">
+             Ibrat Mock Trials is Uzbekistan's first youth-led mock trial initiative, designed to educate, empower, and engage 
+             students in the workings of the legal system. Through realistic courtroom simulations, participants step into the roles
+              of lawyers, judges, and witnesses—developing public speaking, critical thinking, and a deep understanding of justice.
+              We believe that law is not just for lawyers—it's for every citizen who wants to stand up, speak clearly, and lead with integrity. 
+              Our mission is to build a generation that respects the rule of law, values fairness, and knows how to advocate for 
+              what's right.
+            </p>
+          </div>
+          <div class="order-first md:order-last">
+            <div>
+            <img src="images/groupof3.JPG" alt="Group photo of our team" class="w-full h-64 sm:h-80 md:h-96 object-cover rounded-xl invisible-until-scroll" />
+          </div>
+          </div>
+        </div>
+      </section>
+
+
+       <!-- Events Section -->
+        <section class="py-12 sm:py-20 px-4 sm:px-6 md:px-20" id="impact">
+        <div class="invisible-until-scroll">
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#FFFFFF] text-center mb-8 sm:mb-12">Our Regional Reach</h2>
+          <p class="text-white text-center text-base sm:text-lg mb-8 sm:mb-12 px-2">
+            We are proud to have reached and impacted <span class="font-semibold">all regions of Uzbekistan</span> through our mock trial programs.
+          </p>
+          <div class="flex justify-center">
+            <img src="images/uzbekistan-map.png" 
+                 alt="Regions we reached in Uzbekistan" 
+                 class="w-full max-w-5xl object-contain" />
+          </div>
+        </div>
+      </section>
+
+      <!-- What is Mock Trials Section -->
+      <section class="bg-[#F7F7F7]/90 py-12 sm:py-16 px-4 sm:px-6 md:px-20">
+        <div class="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
+          <div class="order-2 md:order-1">
+            <h2 class="text-2xl sm:text-3xl font-bold text-[#003366] mb-4 invisible-until-scroll" style="transition-delay: 0.5s;">What is Mock Trials?</h2>
+            <p class="text-sm sm:text-base text-gray-700 leading-relaxed invisible-until-scroll" style="transition-delay: 0.5s;">
+              Mock Trials bring the courtroom to life for students. Instead of just reading about the law, you become part of it—arguing cases, examining witnesses, and making decisions. It's a chance to grow as a leader, sharpen your voice, and understand how justice is shaped.
+            </p>
+          </div>
+          <div class="order-1 md:order-2">
+          <div class="relative w-full h-48 sm:h-64 md:h-96 rounded-xl overflow-hidden shadow-lg bg-black">
+  <video class="w-full h-full object-contain rounded-xl invisible-until-scroll"  controls preload="metadata" poster="images/video-thumbnail.jpg">
+    <source src="video/courtroom.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
+          </div>
+        </div>
+      </section>
+
+     
+
+      <!-- Stats Section -->
+      <section class="bg-[#003366]/95 py-12 sm:py-16 px-4 sm:px-6 md:px-20 text-center invisible-until-scroll">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#EAEAEA] mb-8 sm:mb-10">Our Impact in Numbers</h2>
+        <div class="flex flex-wrap justify-center gap-6 sm:gap-10">
+          <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center shadow-md">
+            <div>
+              <p class="text-lg sm:text-2xl font-bold">80</p>
+              <p class="text-xs sm:text-sm">Sessions</p>
+            </div>
+          </div>
+          <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center shadow-md">
+            <div>
+              <p class="text-lg sm:text-2xl font-bold">1500+</p>
+              <p class="text-xs sm:text-sm">Participants</p>
+            </div>
+          </div>
+          <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center shadow-md">
+            <div>
+              <p class="text-lg sm:text-2xl font-bold">12</p>
+              <p class="text-xs sm:text-sm">Regions</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    <!-- Quote Section -->
+<section 
+  class="relative bg-cover bg-center bg-no-repeat min-h-[60vh] sm:h-[80vh] md:h-[90vh]" 
+  style="background-image: url('images/quote-section.jpg');"
+>
+  <!-- Dark overlay -->
+  <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+  <!-- Quote content: responsive positioning -->
+  <div class="absolute bottom-8 sm:bottom-16 md:bottom-24 right-4 sm:right-8 md:right-16 text-right text-white max-w-xs sm:max-w-lg md:max-w-xl animate-fadeInUp">
+    <p class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-serif italic leading-relaxed mb-4 invisible-until-scroll" style="transition-delay: 0.5s;">
+    "The law is reason, free from passion."
+    <p class="text-sm sm:text-lg md:text-xl font-bold font-serif invisible-until-scroll" style="transition-delay: 0.8s;">— Aristotle.</p>
+  </div>
+</section>
+
+
+      <!-- Team Section -->
+   <section id="team" class="bg-[#003366]/95 py-12 sm:py-20 px-4 sm:px-6 md:px-20 text-center">
+  <h2 class="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 invisible-until-scroll">Meet our Founders</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
+    <!-- Team Member 1 -->
+    <div class="flex flex-col items-center">
+      <img src="images/oybek.jpg" alt="Oybek" class="w-48 h-60 sm:w-56 sm:h-70 md:w-64 md:h-80 object-cover rounded-2xl shadow-lg invisible-until-scroll" style="transition-delay: 0.1s;">
+      <p class="mt-4 sm:mt-6 text-lg sm:text-xl font-bold text-white invisible-until-scroll" style="transition-delay: 0.3s;">Abdullaev Oybek</p>
+      <p class="text-sm sm:text-base font-semibold text-gray-300 mt-1 invisible-until-scroll" style="transition-delay: 0.4s;">Co-Founder</p>
+    </div>
+
+    <!-- Team Member 2 -->
+    <div class="flex flex-col items-center">
+      <img src="images/asad.jpg" alt="Asadbek" class="w-48 h-60 sm:w-56 sm:h-70 md:w-64 md:h-80 object-cover rounded-2xl shadow-lg invisible-until-scroll" style="transition-delay: 0.1s;">
+      <p class="mt-4 sm:mt-6 text-lg sm:text-xl font-bold text-white invisible-until-scroll" style="transition-delay: 0.3s;">Asadbek Oltinov </p>
+      <p class="text-sm sm:text-base font-semibold text-gray-300 mt-1 invisible-until-scroll" style="transition-delay: 0.4s;">Founder</p>
+    </div>
+
+    <!-- Team Member 3 -->
+    <div class="flex flex-col items-center sm:col-span-2 md:col-span-1">
+      <img src="images/khabi.jpg" alt="Khabi" class="w-48 h-60 sm:w-56 sm:h-70 md:w-64 md:h-80 object-cover rounded-2xl shadow-lg invisible-until-scroll" style="transition-delay: 0.1s;">
+      <p class="mt-4 sm:mt-6 text-lg sm:text-xl font-bold text-white invisible-until-scroll" style="transition-delay: 0.3s;">Khabi Abdullakhonov</p>
+      <p class="text-sm sm:text-base font-semibold text-gray-300 mt-1 invisible-until-scroll" style="transition-delay: 0.4s;">Co-Founder</p>
+    </div>
+  </div>
+</section>
+
+<section class="relative bg-[url('images/law-bg.jpg')] bg-cover bg-center bg-no-repeat bg-black/70 bg-blend-overlay py-16 sm:py-24 px-4 sm:px-6 md:px-20 text-white text-center">
+  
+  
+  <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-12 sm:mb-16 invisible-until-scroll" >What Our Participants Say</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 max-w-7xl mx-auto">
+    <!-- Student 1 -->
+    <div>
+      <p class="text-base sm:text-lg italic mb-4 sm:mb-6 invisible-until-scroll" style="transition-delay: 0.1s;">"Ibrat Mock Trials helped me find my passion and create a plan for my future. I was confused about what major to study or career path to take, but IMT made me fall in love with the practice of the courtroom!"</p>
+      <p class="font-semibold text-base sm:text-lg invisible-until-scroll" style="transition-delay: 0.4s;">- Jamshidbek A.</p>
+    </div>
+
+    <!-- Student 2 -->
+    <div>
+      <p class="text-base sm:text-lg italic mb-4 sm:mb-6 invisible-until-scroll" style="transition-delay: 0.1s;">"I enjoyed the critical thinking demanded in the court sessions, it was a lively experience that really challenged my mind."</p>
+      <p class="font-semibold text-base sm:text-lg invisible-until-scroll" style="transition-delay: 0.4s;">- Mubina M.</p>
+    </div>
+
+    <!-- Student 3 -->
+    <div>
+      <p class="text-base sm:text-lg italic mb-4 sm:mb-6 invisible-until-scroll" style="transition-delay: 0.1s;">"I took on the role of a prosecutor during the court session, the environment of the room allowed me to get more comfortable with public speaking."</p>
+      <p class="font-semibold text-base sm:text-lg invisible-until-scroll" style="transition-delay: 0.4s;">- Abdulaziz R.</p>
+    </div>
+  </div>
+</section>
+
+      <!-- Partners Section -->
+    <section class="bg-[#F2F2F2] py-12 sm:py-20 px-4 sm:px-6 md:px-28 text-[#003366] text-center">
+  <h2 class="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 invisible-until-scroll">Our Partners</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 md:gap-12 max-w-6xl mx-auto justify-center invisible-until-scroll">
+    
+    <!-- Partner 1 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg group h-64 sm:h-80 md:h-[420px] max-w-sm mx-auto bg-black">
+      <img src="images/partner-1.jpg" alt="Ibrat Farzandlari" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80">
+      <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4 sm:p-6">
+        <p class="text-white text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-left">Ibrat Farzandlari</p>
+        <a href="https://ibratfarzandlari.uz/" target="_blank"
+           class="border border-white text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:bg-white hover:text-black transition">
+          See more
+        </a>
+      </div>
+    </div>
+
+    <!-- Partner 2 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg group h-64 sm:h-80 md:h-[420px] max-w-sm mx-auto bg-black">
+      <img src="images/partner-2.jpg" alt="Youth Affairs Agency" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80">
+      <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4 sm:p-6">
+        <p class="text-white text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-left">Youth Affairs Agency</p>
+        <a href="https://gov.uz/en/yoshlar" target="_blank"
+           class="border border-white text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:bg-white hover:text-black transition">
+          See more
+        </a>
+      </div>
+    </div>
+
+    <!-- Partner 3 - PIIMA -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg group h-64 sm:h-80 md:h-[420px] max-w-sm mx-auto bg-black sm:col-span-2 md:col-span-1">
+      <img src="images/PIIMA.png" alt="PIIMA" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80">
+      <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4 sm:p-6">
+        <p class="text-white text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-left">Presidential Schools Agency</p>
+        <a href="https://piima.uz/en" target="_blank"
+           class="border border-white text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm hover:bg-white hover:text-black transition">
+          See more
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+    <!-- Gallery Section -->
+<section id="gallery" class="relative bg-[url('images/law-bg.jpg')] bg-cover bg-center bg-no-repeat bg-black/70 bg-blend-overlay py-16 sm:py-24 px-4 sm:px-6 md:px-20 text-white text-center">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8 sm:mb-12 invisible-until-scroll">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold serif-heading text-white mb-4">
+        Gallery
+      </h2>
+      <p class="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto px-2">
+        Witness the power of youth-led legal education through compelling moments 
+        of advocacy, teamwork, and judicial excellence.
+      </p>
+    </div>
+
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 invisible-until-scroll" style="transition-delay: 0.2s;">
+      <!-- Gallery Item 1 -->
+      <div class="gallery-item" data-image="1">
+        <img src="images/Group1.JPG" alt="Group 1 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+      <!-- Gallery Item 2 -->
+      <div class="gallery-item" data-image="2">
+        <img src="images/Group2.JPG" alt="Group 2 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+      <!-- Gallery Item 3 -->
+      <div class="gallery-item" data-image="3">
+        <img src="images/Group3.JPG" alt="Group 3 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+      <!-- Gallery Item 4 -->
+      <div class="gallery-item" data-image="4">
+        <img src="images/Group4.JPG" alt="Group 4 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+      <!-- Gallery Item 5 -->
+      <div class="gallery-item" data-image="5">
+        <img src="images/Group5.JPG" alt="Group 5 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+      <!-- Gallery Item 6 -->
+      <div class="gallery-item" data-image="6">
+        <img src="images/Group6.JPG" alt="Group 6 - Ibrat Mock Trials Team" class="w-full h-48 sm:h-56 md:h-64 object-cover" loading="lazy" />
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center p-2 sm:p-4">
+    <div class="relative max-w-4xl max-h-[90vh] w-full">
+      <button id="close-lightbox" class="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 text-white hover:bg-white/20 p-2 rounded-full transition">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <img id="lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain" />
+      <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-gradient-to-t from-black/80 to-transparent">
+        <h3 id="lightbox-caption" class="text-lg sm:text-xl font-semibold text-yellow-400 mb-2"></h3>
+        <p id="lightbox-description" class="text-gray-300 text-xs sm:text-sm"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-[#003366] text-white px-4 sm:px-6 md:px-20 py-8 sm:py-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 items-start text-left invisible-until-scroll">
+    
+    <!-- Community Section -->
+     <!-- Left Column: Community + Copyright -->
+    <div class="flex flex-col justify-between h-full">
+      <div>
+        <h3 class="text-base sm:text-lg font-semibold mb-2">Community</h3>
+        <p class="text-xs sm:text-sm text-gray-200">Ibrat Mock Trials is building a community of students passionate about law, leadership, and justice. Together, we learn, practice, and inspire each other</p>
+      </div>
+      <p class="text-xs text-gray-400 mt-4 sm:mt-6">© 2025 Ibrat Mock Trials. All rights reserved.</p>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div>
+      <h3 class="text-base sm:text-lg font-semibold mb-2">Connect</h3>
+      <p class="text-xs sm:text-sm">@ibratmocktrialsbot</p>
+      <p class="text-xs sm:text-sm">mocktrials.site</p>
+      <p class="text-xs sm:text-sm">+998 (95) 092 0208</p>
+      <p class="text-xs sm:text-sm mb-3 sm:mb-4">+998 (91) 297 22 75</p>
+      <div class="flex space-x-3 sm:space-x-4">
+        <a href="https://www.instagram.com/ibratmocktrial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+          <img src="images/instagram.png" alt="Instagram" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+        <a href="https://t.me/IbratMockTrials" target="_blank" aria-label="Telegram">
+          <img src="images/telegram.png" alt="Telegram" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+        <a href="https://www.linkedin.com/company/ibrat-mock-trials/" target="_blank" aria-label="LinkedIn">
+          <img src="images/linkedin.png" alt="LinkedIn" class="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Collaborate Section -->
+    <div>
+      <h3 class="text-base sm:text-lg font-semibold mb-2">Collaborate</h3>
+      <p class="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-4">Want to be part of shaping the next generation of leaders? Enter your email to stay updated on programs and opportunities.</p>
+      <form class="space-y-2 sm:space-y-3">
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input 
+            type="email" 
+            placeholder="Enter your email address here" 
+            class="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-800 bg-white rounded-lg border-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            required 
+          />
+          <button 
+            type="submit" 
+            class="px-4 sm:px-6 py-2 sm:py-3 bg-white text-[#003366] text-xs sm:text-sm font-medium rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+ 
+</footer>
+  </div>
+  </body>
+</html>
